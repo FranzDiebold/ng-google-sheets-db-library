@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-google-sheets-db": [
+        "dist/ng-google-sheets-db/ng-google-sheets-db",
+        "dist/ng-google-sheets-db"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
