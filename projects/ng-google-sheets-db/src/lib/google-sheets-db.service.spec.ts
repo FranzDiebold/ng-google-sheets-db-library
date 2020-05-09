@@ -3,18 +3,18 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 
-import { NgGoogleSheetsDbService } from './ng-google-sheets-db.service';
-import { googleSheetsMockResponseData } from './ng-google-sheets-db.service.mock-data';
+import { GoogleSheetsDbService } from './google-sheets-db.service';
+import { googleSheetsMockResponseData } from './google-sheets-db.service.mock-data';
 
-describe('NgGoogleSheetsDbService', () => {
-  let service: NgGoogleSheetsDbService;
+describe('GoogleSheetsDbService', () => {
+  let service: GoogleSheetsDbService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
     });
-    service = TestBed.inject(NgGoogleSheetsDbService);
+    service = TestBed.inject(GoogleSheetsDbService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 

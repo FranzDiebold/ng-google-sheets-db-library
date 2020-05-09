@@ -24,7 +24,7 @@ const attributesMapping = {
 ```
 
 ```ts
-this.ngGoogleSheetsDbService.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping, 'Active')
+this.googleSheetsDbService.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping, 'Active')
   .subscribe((characters: object[]) => {
     // ...
   });
@@ -43,5 +43,5 @@ this.ngGoogleSheetsDbService.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPC
 2. Share your sheet:
     - [File] -> [Publish to the web] -> [Publish]
     - Get the *Spreadsheet ID* (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`).
-3. Add `NgGoogleSheetsDbService` to your module.
-4. Use `NgGoogleSheetsDbService`.
+3. Add `GoogleSheetsDbService` to your module.
+4. Use `GoogleSheetsDbService`.

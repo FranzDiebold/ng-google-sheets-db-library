@@ -11,7 +11,7 @@ export interface GoogleSpreadsheetsResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class NgGoogleSheetsDbService {
+export class GoogleSheetsDbService {
 
   constructor(private http: HttpClient) { }
 
