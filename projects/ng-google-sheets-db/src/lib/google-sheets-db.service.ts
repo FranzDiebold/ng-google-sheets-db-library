@@ -15,19 +15,19 @@ export class GoogleSheetsDbService {
 
   constructor(private http: HttpClient) { }
 
-  public get(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[]): Observable<object[]> {
+  public get<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[]): Observable<T[]> {
     return this.getEntries(spreadsheetId, worksheetId).pipe(
-      map(entries => entries.map(entry => this.getObjectFromEntry(entry, attributesMapping)))
+      map(entries => entries.map(entry => this.getObjectFromEntry(entry, attributesMapping) as T))
     );
   }
 
-  public getActive(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[],
-                   isActiveColumnName: string = 'is_active'): Observable<object[]> {
+  public getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[],
+                      isActiveColumnName: string = 'is_active'): Observable<T[]> {
     return this.getEntries(spreadsheetId, worksheetId).pipe(
       map((objects: object[]) => objects
         .filter(entry => ['TRUE', true, 1, '1', 'yes'].includes(this.getValueFromEntry(entry, isActiveColumnName)))
       ),
-      map(entries => entries.map(entry => this.getObjectFromEntry(entry, attributesMapping))),
+      map(entries => entries.map(entry => this.getObjectFromEntry(entry, attributesMapping) as T)),
     );
   }
 
@@ -58,7 +58,7 @@ export class GoogleSheetsDbService {
     }, {});
   }
 
-  private getObjectFromEntry(entry: object, attributesMapping: object | string[]): object {
+  private getObjectFromEntry(entry: object, attributesMapping: object | string[]): unknown {
     if (Array.isArray(attributesMapping)) {
       attributesMapping = this.arrayToObject(attributesMapping);
     }
