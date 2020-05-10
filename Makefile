@@ -11,9 +11,17 @@ test:
 test-lib:
 	npm run test-lib
 
+.PHONY: test-lib-ci
+test-lib-ci:
+	npm run test-lib-ci
+
 .PHONY: test-demo
 test-demo:
 	npm run test-demo
+
+.PHONY: test-demo-ci
+test-demo-ci:
+	npm run test-demo-ci
 
 .PHONY: lint
 lint:
