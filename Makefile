@@ -5,45 +5,45 @@ install:
 
 .PHONY: test
 test:
-	ng test
+	npm run test
 
 .PHONY: test-lib
 test-lib:
-	ng test ng-google-sheets-db
+	npm run test-lib
 
 .PHONY: test-demo
-test-lib:
-	ng test demo
+test-demo:
+	npm run test-demo
 
 .PHONY: lint
 lint:
-	ng lint
+	npm run lint
 
 .PHONY: lint-lib
 lint-lib:
-	ng lint ng-google-sheets-db
+	npm run lint-lib
 
 .PHONY: lint-demo
-lint-lib:
-	ng lint demo
+lint-demo:
+	npm run lint-demo
 
 .PHONY: build-lib
 build-lib:
-	ng build ng-google-sheets-db
+	npm run build-lib
 
 .PHONY: build-demo
 build-demo:
-	ng build demo
+	npm run build-demo
 
 .PHONY: publish-lib
 publish-lib:
-	ng build ng-google-sheets-db --prod
+	npm run build-lib-prod
 	cd dist/ng-google-sheets-db && npm publish
 
 .PHONY: serve-demo
 serve-demo:
-	ng serve demo
+	npm run serve-demo
 
 .PHONY: deploy-demo
 deploy-demo:
-	ng deploy demo --base-href=/ng-google-sheets-db/
+	npm run deploy-demo
