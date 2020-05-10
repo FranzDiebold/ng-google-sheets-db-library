@@ -19,7 +19,6 @@ jobs:
     - run: make install
     - run: make test-lib
     - run: make lint-lib
-    - run: make build-lib
     - run: make publish-lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -36,7 +35,6 @@ jobs:
     - run: make install
     - run: make test-demo
     - run: make lint-demo
-    - run: make build-demo
     - run: make deploy-demo
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
