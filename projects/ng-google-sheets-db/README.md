@@ -1,6 +1,10 @@
 # ng-google-sheets-db - Angular Google Sheets DB
 
+[![Test, Lint, Build and Deploy Status](https://github.com/FranzDiebold/ng-google-sheets-db-library/workflows/Test,%20Lint,%20Build%20and%20Deploy/badge.svg)]
+[![demo: online](https://img.shields.io/badge/demo-online-2ca467.svg)](https://franzdiebold.github.io/ng-google-sheets-db-library/)
 [![npm](https://img.shields.io/npm/v/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
+[![npm](https://img.shields.io/npm/dm/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
+[![license: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](./LICENSE)
 
 Use [Google Sheets](https://en.wikipedia.org/wiki/Google_Sheets) as your (read-only) backend for your Angular app!
 
