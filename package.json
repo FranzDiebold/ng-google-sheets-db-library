@@ -12,7 +12,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-lib": "ng build ng-google-sheets-db --prod"
+    "build-lib": "ng build ng-google-sheets-db --prod",
+    "serve-demo": "ng serve demo"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'variables';
+
+section {
+  .container {
+    $verticalPadding: 35px;
+    padding-top: $verticalPadding;
+    padding-bottom: $verticalPadding;
+  }
+}
+
+a {
+  color: variables.$primaryColor;
+}
+
+pre {
+ border-left-color: variables.$primaryColor;
+}
