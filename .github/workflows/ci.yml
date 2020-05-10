@@ -38,4 +38,4 @@ jobs:
     - run: make lint-demo
     - run: make deploy-demo
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
