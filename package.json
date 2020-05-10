@@ -21,7 +21,7 @@
     "lint-demo": "ng lint demo",
     "e2e": "ng e2e",
     "build-lib-prod": "ng build ng-google-sheets-db --prod",
-    "deploy-demo": "ng deploy demo --base-href=/ng-google-sheets-db/"
+    "deploy-demo": "ng deploy demo --base-href=/ng-google-sheets-db-library/"
   },
   "repository": {
     "type": "git",
