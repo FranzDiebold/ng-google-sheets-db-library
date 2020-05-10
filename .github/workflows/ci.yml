@@ -17,7 +17,7 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - run: make install
-    - run: make test-lib
+    - run: make test-lib-ci
     - run: make lint-lib
     - run: make publish-lib
       env:
@@ -33,7 +33,7 @@ jobs:
       with:
         node-version: '12.x'
     - run: make install
-    - run: make test-demo
+    - run: make test-demo-ci
     - run: make lint-demo
     - run: make deploy-demo
       env:
