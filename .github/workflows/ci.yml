@@ -27,9 +27,9 @@ jobs:
   demo:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
