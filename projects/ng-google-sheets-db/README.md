@@ -2,6 +2,7 @@
 
 [![Test, Lint, Build and Deploy](https://github.com/FranzDiebold/ng-google-sheets-db-library/workflows/Test,%20Lint,%20Build%20and%20Deploy/badge.svg)](https://github.com/FranzDiebold/ng-google-sheets-db-library/actions)
 [![demo: online](https://img.shields.io/badge/demo-online-2ca467.svg)](https://franzdiebold.github.io/ng-google-sheets-db-library/)
+[![Angular: v9](https://img.shields.io/badge/Angular-v9-DD0031.svg)](./projects/ng-google-sheets-db/package.json)
 [![npm](https://img.shields.io/npm/v/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
 [![npm](https://img.shields.io/npm/dm/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
 [![license: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](./LICENSE)
@@ -30,7 +31,7 @@ const attributesMapping = {
 ```
 
 ```ts
-this.googleSheetsDbService.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
+googleSheetsDbService.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
   .subscribe((characters: object[]) => {
     // Use the characters here
   });
@@ -139,6 +140,10 @@ const characters$: Observable<Character> = googleSheetsDbService.getActive('1gSc
 ```
 
 Get "active" rows from the Google spreadsheet as an `Observable` of objects. You may have an *active* column, with which you can enable or disable rows/entries.
+
+## Demo Application
+
+Want to see an example of how to use `ng-google-sheets-db`? Check out the demo application: [projects/demo](./projects/demo).
 
 ## License
 
