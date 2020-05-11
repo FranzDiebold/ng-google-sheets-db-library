@@ -58,13 +58,19 @@ npm install ng-google-sheets-db
 
 ### Angular
 
-Add `GoogleSheetsDbService` to your app's module as a provider:
+Add `GoogleSheetsDbService` to your app's module as a provider and Angular's `HttpClientModule` to the imports:
 
 ```typescript
+import { HttpClientModule } from '@angular/common/http';
+
 import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
 @NgModule({
   ...
+  imports: [
+    HttpClientModule,
+    ...
+  ],
   providers: [ GoogleSheetsDbService ],
   ...
 })
@@ -122,16 +128,15 @@ For example, the Google spreadsheet column *Email Address* is mapped to the outc
 
 `skills` is an example of a list. You need to set `_listField` and a `_prefix` for all columns of the list. In this example, all columns starting with *Skill* and an increasing number are part of the list, i.e. *Skill 1*, *Skill 2*, etc.
 
-
 ## Methods
 
 ### get<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[]): Observable<T[]>
 
 ```typescript
-const characters$: Observable<Character> = googleSheetsDbService.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping);
+const allCharacters$: Observable<Character> = googleSheetsDbService.get<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping);
 ```
 
-Get all rows from the Google spreadsheet as an `Observable` of objects.
+Get all rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`.
 
 ### getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[], isActiveColumnName: string = 'is_active'): Observable<T[]>
 
