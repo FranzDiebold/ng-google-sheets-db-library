@@ -104,4 +104,50 @@ describe('GoogleSheetsDbService', () => {
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
     mockRequest.flush(googleSheetsMockResponseData);
   });
+
+  it('should read Google sheet and return active entries with custom activeValues list', (done: DoneFn) => {
+    service.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 3, attributesMapping, 'Active', ['no'])
+      .subscribe(data => {
+        expect(data.length).toBe(2);
+
+        expect(data[1]['id']).toBe('3');
+        expect(data[1]['name']).toBe('Homer');
+        expect(data[1]['email']).toBe('');
+        expect(data[1]['contact']['street']).toBe('Evergreen Terrace');
+        expect(data[1]['contact']['streetNumber']).toBe('742');
+        expect(data[1]['contact']['zip']).toBe('58008');
+        expect(data[1]['contact']['city']).toBe('Springfield');
+        expect(data[1]['skills'].length).toBe(2);
+        expect(data[1]['skills']).toContain('beer');
+        expect(data[1]['skills']).toContain('donuts');
+        expect(data[1]['isactive']).toBeFalsy();
+        expect(data[1]['notvisible']).toBeFalsy();
+
+        expect(data[0]['skills'].length).toBe(3);
+
+        done();
+    });
+
+    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/3/public/values?alt=json';
+    const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
+    mockRequest.flush(googleSheetsMockResponseData);
+  });
+
+  it('should read Google sheet and return active entries with custom activeValue', (done: DoneFn) => {
+    service.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 4, attributesMapping, 'Active', 'no')
+      .subscribe(data => {
+        expect(data.length).toBe(2);
+
+        expect(data[0]['id']).toBe('1');
+        expect(data[0]['name']).toBe('Lisa');
+        expect(data[1]['id']).toBe('3');
+        expect(data[1]['name']).toBe('Homer');
+
+        done();
+    });
+
+    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/4/public/values?alt=json';
+    const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
+    mockRequest.flush(googleSheetsMockResponseData);
+  });
 });

@@ -138,13 +138,14 @@ const allCharacters$: Observable<Character> = googleSheetsDbService.get<Characte
 
 Get all rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`.
 
-### getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[], isActiveColumnName: string = 'is_active'): Observable<T[]>
+### getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[], isActiveColumnName: string = 'is_active', activeValues: string[] | string = null): Observable<T[]>
 
 ```typescript
-const characters$: Observable<Character> = googleSheetsDbService.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping, 'Active');
+const activeCharacters$: Observable<Character> = googleSheetsDbService.getActive<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping, 'Active');
 ```
 
-Get "active" rows from the Google spreadsheet as an `Observable` of objects. You may have an *active* column, with which you can enable or disable rows/entries.
+Get "active" rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`. You may have an *active* column with name `isActiveColumnName`, with which you can enable or disable rows/entries.
+"Active" rows have the value `true`, `1` or `yes`. You may also define your own `activeValues`.
 
 ## Demo Application
 

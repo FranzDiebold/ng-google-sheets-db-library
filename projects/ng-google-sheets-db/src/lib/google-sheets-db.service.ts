@@ -12,6 +12,7 @@ export interface GoogleSpreadsheetsResponse {
   providedIn: 'root'
 })
 export class GoogleSheetsDbService {
+  defaultActiveValues: any[] = ['true', '1', 'yes'];
 
   constructor(private http: HttpClient) { }
 
@@ -22,10 +23,15 @@ export class GoogleSheetsDbService {
   }
 
   public getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[],
-                      isActiveColumnName: string = 'is_active'): Observable<T[]> {
+                      isActiveColumnName: string = 'is_active', activeValues: string[] | string = null): Observable<T[]> {
+    if (activeValues === null) {
+      activeValues = this.defaultActiveValues;
+    } else if (!Array.isArray(activeValues)) {
+      activeValues = [activeValues];
+    }
     return this.getEntries(spreadsheetId, worksheetId).pipe(
       map((objects: object[]) => objects
-        .filter(entry => ['TRUE', true, 1, '1', 'yes'].includes(this.getValueFromEntry(entry, isActiveColumnName)))
+        .filter(entry => activeValues.includes(this.getValueFromEntry(entry, isActiveColumnName).toLowerCase()))
       ),
       map(entries => entries.map(entry => this.getObjectFromEntry(entry, attributesMapping) as T)),
     );
