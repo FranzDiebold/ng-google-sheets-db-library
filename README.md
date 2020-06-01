@@ -1,7 +1,8 @@
 # ng-google-sheets-db - Angular Google Sheets DB
 
 [![Test, Lint, Build and Deploy](https://github.com/FranzDiebold/ng-google-sheets-db-library/workflows/Test,%20Lint,%20Build%20and%20Deploy/badge.svg)](https://github.com/FranzDiebold/ng-google-sheets-db-library/actions)
-[![demo: online](https://img.shields.io/badge/demo-online-2ca467.svg)](https://franzdiebold.github.io/ng-google-sheets-db-library/)
+[![demo: app](https://img.shields.io/badge/demo-app-2ca467.svg)](https://franzdiebold.github.io/ng-google-sheets-db-library/)
+[![demo: stackblitz](https://img.shields.io/badge/demo-stackblitz-1389fd.svg)](https://stackblitz.com/edit/ng-google-sheets-db-demo)
 [![Angular: v9](https://img.shields.io/badge/Angular-v9-DD0031.svg)](./projects/ng-google-sheets-db/package.json)
 [![npm](https://img.shields.io/npm/v/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
 [![npm](https://img.shields.io/npm/dm/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
