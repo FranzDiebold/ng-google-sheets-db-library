@@ -1,10 +1,17 @@
 {
   "name": "ng-google-sheets-db",
-  "version": "0.0.4",
+  "version": "0.9.0",
   "description": "Use Google Sheets as your (read-only) backend for your Angular app!",
   "author": {
     "name": "Franz Diebold"
   },
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
+    "copy:schemas": "find schematics -type f -name 'schema.json' -exec rsync -R {} ../../dist/ng-google-sheets-db/ \\;",
+    "copy:collection": "cp schematics/collection.json ../../dist/ng-google-sheets-db/schematics/collection.json",
+    "postbuild": "npm run copy:schemas && npm run copy:collection"
+  },
+  "schematics": "./schematics/collection.json",
   "repository": {
     "type": "git",
     "url": "https://github.com/FranzDiebold/ng-google-sheets-db-library.git"

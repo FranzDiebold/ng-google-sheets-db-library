@@ -1,6 +1,6 @@
 {
   "name": "ng-google-sheets-db-library",
-  "version": "0.0.4",
+  "version": "0.9.0",
   "description": "Use Google Sheets as your (read-only) backend for your Angular app!",
   "author": {
     "name": "Franz Diebold"
@@ -12,6 +12,7 @@
     "serve-demo": "ng serve demo",
     "build": "ng build",
     "build-lib": "ng build ng-google-sheets-db",
+    "build-lib-schematics": "cd projects/ng-google-sheets-db && npm run build",
     "build-demo": "ng build demo",
     "test": "ng test",
     "test-lib": "ng test ng-google-sheets-db",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.7",
     "@angular-devkit/build-ng-packagr": "~0.901.7",
+    "@angular-devkit/schematics": "^9.1.7",
     "@angular/cli": "~9.1.7",
     "@angular/compiler-cli": "~9.1.9",
     "@angular/language-service": "~9.1.9",

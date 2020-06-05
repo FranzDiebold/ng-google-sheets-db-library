@@ -41,6 +41,12 @@ googleSheetsDbService.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, att
 ## Installation
 
 ```bash
+ng add ng-google-sheets-db
+```
+
+or
+
+```bash
 npm install ng-google-sheets-db
 ```
 

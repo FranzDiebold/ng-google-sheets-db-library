@@ -39,6 +39,10 @@ lint-demo:
 build-lib:
 	npm run build-lib
 
+.PHONY: build-lib-schematics
+build-lib-schematics:
+	npm run build-lib-schematics
+
 .PHONY: build-demo
 build-demo:
 	npm run build-demo
@@ -46,6 +50,7 @@ build-demo:
 .PHONY: publish-lib
 publish-lib:
 	npm run build-lib-prod
+	npm run build-lib-schematics
 	cd dist/ng-google-sheets-db && npm publish
 
 .PHONY: serve-demo
