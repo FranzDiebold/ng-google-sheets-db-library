@@ -2,7 +2,7 @@
 
 [![Test, Lint, Build and Deploy](https://github.com/FranzDiebold/ng-google-sheets-db-library/workflows/Test,%20Lint,%20Build%20and%20Deploy/badge.svg)](https://github.com/FranzDiebold/ng-google-sheets-db-library/actions)
 [![demo: app](https://img.shields.io/badge/demo-app-2ca467.svg)](https://franzdiebold.github.io/ng-google-sheets-db-library/)
-[![demo: stackblitz](https://img.shields.io/badge/demo-stackblitz-1389fd.svg)](https://stackblitz.com/edit/ng-google-sheets-db-demo)
+[![demo: StackBlitz](https://img.shields.io/badge/demo-StackBlitz-1389fd.svg)](https://stackblitz.com/edit/ng-google-sheets-db-demo)
 [![Angular: v9](https://img.shields.io/badge/Angular-v9-DD0031.svg)](./projects/ng-google-sheets-db/package.json)
 [![npm](https://img.shields.io/npm/v/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
 [![npm](https://img.shields.io/npm/dm/ng-google-sheets-db.svg)](https://www.npmjs.com/package/ng-google-sheets-db)
@@ -10,7 +10,7 @@
 
 Use [Google Sheets](https://en.wikipedia.org/wiki/Google_Sheets) as your (read-only) backend for your Angular app!
 
-![Google Sheets Table](./images/google-sheets-table.png)
+[![Google Sheets Table](./images/google-sheets-table.png)](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA)
 
 ```typescript
 const attributesMapping = {
@@ -58,6 +58,7 @@ npm install ng-google-sheets-db
     - The first row **must** be the header.
     - The following rows are your entries, one entry per row.
     - You may have an *active* column, with which you can enable or disable rows/entries.
+    - A Google Sheets demo spreadsheet is available [here](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA).
 2. Share your sheet:
     - [File] -> [Publish to the web] -> [Publish]
     - Get the *Spreadsheet ID* (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
@@ -156,7 +157,7 @@ Get "active" rows from the Google spreadsheet as an `Observable` of objects or a
 
 ## Demo Application
 
-Want to see an example of how to use `ng-google-sheets-db`? Check out the demo application: [projects/demo](./projects/demo).
+Want to see an example of how to use `ng-google-sheets-db`? Check out the demo application in [projects/demo](./projects/demo) or on [StackBlitz](https://stackblitz.com/edit/ng-google-sheets-db-demo).
 
 ## License
 

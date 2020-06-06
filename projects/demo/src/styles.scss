@@ -12,6 +12,21 @@ a {
   color: variables.$primaryColor;
 }
 
+.button {
+  border-color: variables.$primaryColor;
+
+  &.button-outline {
+    color: variables.$primaryColor;
+  }
+
+  .icon {
+    left: -1rem;
+    max-width: 2rem;
+    position: relative;
+    top: .6rem;
+  }
+}
+
 pre {
  border-left-color: variables.$primaryColor;
 }
