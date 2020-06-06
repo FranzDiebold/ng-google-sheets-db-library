@@ -1,6 +1,6 @@
 {
   "name": "ng-google-sheets-db-library",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Use Google Sheets as your (read-only) backend for your Angular app!",
   "author": {
     "name": "Franz Diebold"
