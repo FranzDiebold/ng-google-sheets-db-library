@@ -56,5 +56,6 @@ jobs:
     - run: make test-demo-ci
     - run: make lint-demo
     - run: make deploy-demo
+      if: github.ref == 'refs/heads/master'
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
