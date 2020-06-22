@@ -7,8 +7,8 @@ on:
       - published
 
 jobs:
-  setup:
-    name: Setup
+  lib_test_and_lint:
+    name: Test and Lint library
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,25 +19,12 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - run: make install
-
-  lib_test_and_lint:
-    name: Test and Lint library
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-        registry-url: 'https://registry.npmjs.org'
     - run: make test-lib-ci
     - run: make lint-lib
 
   lib_publish:
     name: Publish library
-    needs: setup
+    needs: lib_test_and_lint
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
@@ -48,6 +35,7 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
+    - run: make install
     - run: make publish-lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -64,6 +52,7 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
+    - run: make install
     - run: make build-lib
     - run: make test-demo-ci
     - run: make lint-demo
