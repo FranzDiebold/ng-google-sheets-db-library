@@ -8,6 +8,7 @@ on:
 
 jobs:
   setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,49 +20,53 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: make install
 
-  lib-test:
+  lib_test_and_lint:
+    name: Test and Lint library
     needs: setup
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
     - run: make test-lib-ci
-
-  lib-lint:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
     - run: make lint-lib
 
-  lib-publish:
+  lib_publish:
+    name: Publish library
     needs: setup
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
     - run: make publish-lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  demo-build:
+  demo:
+    name: Build, test, lint and deploy demo application
     needs: setup
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
     - run: make build-lib
-
-  demo-test:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
     - run: make test-demo-ci
-
-  demo-lint:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
     - run: make lint-demo
-
-  demo-deploy:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
     - run: make deploy-demo
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
