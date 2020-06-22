@@ -2,14 +2,15 @@ name: Test, Lint, Build and Deploy
 
 on:
   push:
-    branches:
-      - master
+  release:
+    types:
+      - published
 
 jobs:
-  lib:
-    runs-on: ubuntu-18.04
+  setup:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       with:
         persist-credentials: false
     - uses: actions/setup-node@v1
@@ -17,25 +18,50 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - run: make install
+
+  lib-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - run: make test-lib-ci
+
+  lib-lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - run: make lint-lib
+
+  lib-publish:
+    needs: setup
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
     - run: make publish-lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  demo:
-    runs-on: ubuntu-18.04
+  demo-build:
+    needs: setup
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - run: make install
     - run: make build-lib
+
+  demo-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - run: make test-demo-ci
+
+  demo-lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - run: make lint-demo
+
+  demo-deploy:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - run: make deploy-demo
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
