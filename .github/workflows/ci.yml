@@ -1,4 +1,4 @@
-name: Test, Lint, Build and Deploy
+name: Test, lint, build and deploy
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   lib_test_and_lint:
-    name: Test and Lint library
+    name: Test and lint library
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
