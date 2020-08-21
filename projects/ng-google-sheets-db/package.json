@@ -1,6 +1,6 @@
 {
   "name": "ng-google-sheets-db",
-  "version": "0.9.2",
+  "version": "1.0.0",
   "description": "Use Google Sheets as your (read-only) backend for your Angular app!",
   "author": {
     "name": "Franz Diebold"
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^9.1.9",
-    "@angular/core": "^9.1.9",
-    "tslib": "^1.11.2"
+    "@angular/common": "^10.0.11",
+    "@angular/core": "^10.0.11",
+    "tslib": "^2.0.1"
   },
   "keywords": [
     "angular",
