@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="75" src="./design/ng-google-sheets-db-logo.png" alt="ng-google-sheets-db logo">
+</p>
+
 # ng-google-sheets-db - Angular Google Sheets DB
 
 [![Test, lint, build and deploy](https://github.com/FranzDiebold/ng-google-sheets-db-library/workflows/Test,%20lint,%20build%20and%20deploy/badge.svg)](https://github.com/FranzDiebold/ng-google-sheets-db-library/actions)

@@ -11,9 +11,12 @@
   line-height: $navigationHeight;
   overflow-y: auto;
 
+  .logo {
+    margin-right: 8px;
+  }
+
   .title {
     font-weight: 400;
-    border-bottom: 2px solid variables.$primaryColor;
   }
 
   .navigation-list {
@@ -22,12 +25,12 @@
     a {
       margin-left: 25px;
     }
+  }
 
-    svg {
-      $verticalPadding: 7px;
-      margin-top: $verticalPadding;
-      margin-bottom: -1* $verticalPadding;
-    }
+  svg {
+    $verticalPadding: 7px;
+    margin-top: $verticalPadding;
+    margin-bottom: -1* $verticalPadding;
   }
 }
 
