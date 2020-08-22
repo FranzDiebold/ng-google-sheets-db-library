@@ -1,13 +1,9 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
     "declaration": true,
     "module": "commonjs",
-    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -18,7 +14,6 @@
     "outDir": "../../dist/ng-google-sheets-db/schematics",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "sourceMap": true,
     "strictNullChecks": true,
     "target": "es6",
     "types": [
