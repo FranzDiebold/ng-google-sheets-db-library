@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^10.0.11",
-    "@angular/core": "^10.0.11",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
     "tslib": "^2.0.1"
   },
   "keywords": [
