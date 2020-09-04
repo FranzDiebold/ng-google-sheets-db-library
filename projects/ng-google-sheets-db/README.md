@@ -67,6 +67,7 @@ npm install ng-google-sheets-db
     - [File] &rightarrow; [Publish to the web] &rightarrow; (Entire Document, Web page) [Publish]
     - Get the *Spreadsheet ID* (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
     - Get the *Worksheet ID*: The Worksheet IDs are increasing numbers, starting at 1.
+3. Optional: It may be a good idea to enable [2-Step Verification](https://www.google.com/landing/2step/) for your Google account, if you have not done it yet :wink:.
 
 ### Angular
 
