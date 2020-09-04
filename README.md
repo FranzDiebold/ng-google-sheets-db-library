@@ -64,7 +64,7 @@ npm install ng-google-sheets-db
     - You may have an *active* column, with which you can enable or disable rows/entries.
     - A Google Sheets demo spreadsheet is available [here](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA).
 2. Share your sheet:
-    - [File] -> [Publish to the web] -> [Publish]
+    - [File] &rightarrow; [Publish to the web] &rightarrow; (Entire Document, Web page) [Publish]
     - Get the *Spreadsheet ID* (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
     - Get the *Worksheet ID*: The Worksheet IDs are increasing numbers, starting at 1.
 
