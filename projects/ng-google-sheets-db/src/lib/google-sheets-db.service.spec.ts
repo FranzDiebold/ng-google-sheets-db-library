@@ -31,6 +31,10 @@ describe('GoogleSheetsDbService', () => {
     expect(service.getJsonColumnName('  As_dö1+l-?r#^2  t=e*s$t  ')).toBe('asdö1l-r2test');
     expect(service.getJsonColumnName(' AbCdEfghij klMNOPqrstuvWxYZ^1234567890ß´+#-.,<>;:_*`?=) (/&%$§' +
       '"!° @end  ')).toBe('abcdefghijklmnopqrstuvwxyz1234567890ß-.end');
+    expect(service.getJsonColumnName('TÍTULO')).toBe('título');
+    expect(service.getJsonColumnName('ESPECIFICAÇÃO da TECNOLOGIA')).toBe('especificaçãodatecnologia');
+    expect(service.getJsonColumnName(' abcxyz?!012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñç¿¡åø () =§$'))
+      .toBe('abcxyz012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø');
   });
 
   const attributesMapping = {

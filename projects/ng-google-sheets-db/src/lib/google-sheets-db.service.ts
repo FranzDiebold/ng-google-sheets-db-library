@@ -54,7 +54,7 @@ export class GoogleSheetsDbService {
     return columnName
       .trim()
       .toLowerCase()
-      .replace(/[^a-z0-9-.äöüß]/g, '');
+      .replace(/[^a-z0-9-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø]/g, '');
   }
 
   private arrayToObject(array: string[]): object {
