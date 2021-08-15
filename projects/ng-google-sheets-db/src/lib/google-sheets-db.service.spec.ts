@@ -1,7 +1,11 @@
 /* tslint:disable:no-string-literal */
 
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+  TestRequest,
+} from '@angular/common/http/testing';
 
 import { GoogleSheetsDbService } from './google-sheets-db.service';
 import { googleSheetsMockResponseData } from './google-sheets-db.service.mock-data';
@@ -12,7 +16,7 @@ describe('GoogleSheetsDbService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(GoogleSheetsDbService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -28,13 +32,24 @@ describe('GoogleSheetsDbService', () => {
     expect(service.getJsonColumnName('test-2')).toBe('test-2');
     expect(service.getJsonColumnName('test_2')).toBe('test2');
     expect(service.getJsonColumnName('test 2')).toBe('test2');
-    expect(service.getJsonColumnName('  As_dö1+l-?r#^2  t=e*s$t  ')).toBe('asdö1l-r2test');
-    expect(service.getJsonColumnName(' AbCdEfghij klMNOPqrstuvWxYZ^1234567890ß´+#-.,<>;:_*`?=) (/&%$§' +
-      '"!° @end  ')).toBe('abcdefghijklmnopqrstuvwxyz1234567890ß-.end');
+    expect(service.getJsonColumnName('  As_dö1+l-?r#^2  t=e*s$t  ')).toBe(
+      'asdö1l-r2test'
+    );
+    expect(
+      service.getJsonColumnName(
+        ' AbCdEfghij klMNOPqrstuvWxYZ^1234567890ß´+#-.,<>;:_*`?=) (/&%$§' +
+          '"!° @end  '
+      )
+    ).toBe('abcdefghijklmnopqrstuvwxyz1234567890ß-.end');
     expect(service.getJsonColumnName('TÍTULO')).toBe('título');
-    expect(service.getJsonColumnName('ESPECIFICAÇÃO da TECNOLOGIA')).toBe('especificaçãodatecnologia');
-    expect(service.getJsonColumnName(' abcxyz?!012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñç¿¡åø () =§$'))
-      .toBe('abcxyz012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø');
+    expect(service.getJsonColumnName('ESPECIFICAÇÃO da TECNOLOGIA')).toBe(
+      'especificaçãodatecnologia'
+    );
+    expect(
+      service.getJsonColumnName(
+        ' abcxyz?!012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñç¿¡åø () =§$'
+      )
+    ).toBe('abcxyz012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø');
   });
 
   const attributesMapping = {
@@ -46,17 +61,18 @@ describe('GoogleSheetsDbService', () => {
       street: 'Street',
       streetNumber: 'Street Number',
       zip: 'ZIP',
-      city: 'City'
+      city: 'City',
     },
     skills: {
       _prefix: 'Skill',
-      _listField: true
-    }
+      _listField: true,
+    },
   };
 
   it('should read Google sheet and return all entries', (done: DoneFn) => {
-    service.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
-      .subscribe(data => {
+    service
+      .get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
+      .subscribe((data) => {
         expect(data.length).toBe(5);
 
         expect(data[0]['id']).toBe('1');
@@ -74,16 +90,23 @@ describe('GoogleSheetsDbService', () => {
         expect(data[0]['notvisible']).toBeFalsy();
 
         done();
-    });
+      });
 
-    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/1/public/values?alt=json';
+    const expectedRequestUrl =
+      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/1/public/values?alt=json';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
     mockRequest.flush(googleSheetsMockResponseData);
   });
 
   it('should read Google sheet and return active entries', (done: DoneFn) => {
-    service.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 2, attributesMapping, 'Active')
-      .subscribe(data => {
+    service
+      .getActive(
+        '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
+        2,
+        attributesMapping,
+        'Active'
+      )
+      .subscribe((data) => {
         expect(data.length).toBe(3);
 
         expect(data[0]['id']).toBe('2');
@@ -102,16 +125,24 @@ describe('GoogleSheetsDbService', () => {
         expect(data[2]['skills']).toEqual([]);
 
         done();
-    });
+      });
 
-    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/2/public/values?alt=json';
+    const expectedRequestUrl =
+      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/2/public/values?alt=json';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
     mockRequest.flush(googleSheetsMockResponseData);
   });
 
   it('should read Google sheet and return active entries with custom activeValues list', (done: DoneFn) => {
-    service.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 3, attributesMapping, 'Active', ['no'])
-      .subscribe(data => {
+    service
+      .getActive(
+        '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
+        3,
+        attributesMapping,
+        'Active',
+        ['no']
+      )
+      .subscribe((data) => {
         expect(data.length).toBe(2);
 
         expect(data[1]['id']).toBe('3');
@@ -130,16 +161,24 @@ describe('GoogleSheetsDbService', () => {
         expect(data[0]['skills'].length).toBe(3);
 
         done();
-    });
+      });
 
-    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/3/public/values?alt=json';
+    const expectedRequestUrl =
+      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/3/public/values?alt=json';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
     mockRequest.flush(googleSheetsMockResponseData);
   });
 
   it('should read Google sheet and return active entries with custom activeValue', (done: DoneFn) => {
-    service.getActive('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 4, attributesMapping, 'Active', 'no')
-      .subscribe(data => {
+    service
+      .getActive(
+        '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
+        4,
+        attributesMapping,
+        'Active',
+        'no'
+      )
+      .subscribe((data) => {
         expect(data.length).toBe(2);
 
         expect(data[0]['id']).toBe('1');
@@ -148,9 +187,10 @@ describe('GoogleSheetsDbService', () => {
         expect(data[1]['name']).toBe('Homer');
 
         done();
-    });
+      });
 
-    const expectedRequestUrl = 'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/4/public/values?alt=json';
+    const expectedRequestUrl =
+      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/4/public/values?alt=json';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
     mockRequest.flush(googleSheetsMockResponseData);
   });
