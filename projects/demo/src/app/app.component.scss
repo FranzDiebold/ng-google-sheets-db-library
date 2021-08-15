@@ -4,7 +4,7 @@
   $navigationHeight: 5.2rem;
 
   background: #ffffff;
-  border-bottom: .1rem solid #d1d1d1;
+  border-bottom: 0.1rem solid #d1d1d1;
   display: block;
   min-height: $navigationHeight;
   width: 100%;
@@ -30,7 +30,7 @@
   svg {
     $verticalPadding: 7px;
     margin-top: $verticalPadding;
-    margin-bottom: -1* $verticalPadding;
+    margin-bottom: -1 * $verticalPadding;
   }
 }
 
@@ -51,7 +51,8 @@
   background-color: #ffffff;
   border-top: 2px solid variables.$primaryColor;
   border-radius: 3px;
-  box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08), 0 1px 3px 1px rgba(66, 66, 66, 0.16);
+  box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08),
+    0 1px 3px 1px rgba(66, 66, 66, 0.16);
   font-size: 14px;
   font-weight: 300;
 
@@ -144,7 +145,7 @@
 .why {
   margin: 30px auto;
   padding: 20px;
-  background-color: rgba(variables.$primaryColor, .2);
+  background-color: rgba(variables.$primaryColor, 0.2);
   border-radius: 3px;
   font-size: 18px;
 }

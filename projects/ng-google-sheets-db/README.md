@@ -18,25 +18,26 @@ Use [Google Sheets](https://en.wikipedia.org/wiki/Google_Sheets) as your (read-o
 
 ```typescript
 const attributesMapping = {
-  id: 'ID',
-  name: 'Name',
-  email: 'Email Address',
+  id: "ID",
+  name: "Name",
+  email: "Email Address",
   contact: {
-    _prefix: 'Contact',
-    street: 'Street',
-    streetNumber: 'Street Number',
-    zip: 'ZIP',
-    city: 'City'
+    _prefix: "Contact",
+    street: "Street",
+    streetNumber: "Street Number",
+    zip: "ZIP",
+    city: "City",
   },
   skills: {
-    _prefix: 'Skill',
-    _listField: true
-  }
+    _prefix: "Skill",
+    _listField: true,
+  },
 };
 ```
 
 ```ts
-googleSheetsDbService.get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
+googleSheetsDbService
+  .get("1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA", 1, attributesMapping)
   .subscribe((characters: object[]) => {
     // Use the characters here
   });
@@ -59,14 +60,14 @@ npm install ng-google-sheets-db
 ### Google Sheets
 
 1. Create a [Google Sheet](https://docs.google.com/spreadsheets):
-    - The first row **must** be the header.
-    - The following rows are your entries, one entry per row.
-    - You may have an *active* column, with which you can enable or disable rows/entries.
-    - A Google Sheets demo spreadsheet is available [here](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA).
+   - The first row **must** be the header.
+   - The following rows are your entries, one entry per row.
+   - You may have an _active_ column, with which you can enable or disable rows/entries.
+   - A Google Sheets demo spreadsheet is available [here](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA).
 2. Share your sheet:
-    - [File] &rightarrow; [Publish to the web] &rightarrow; (Entire Document, Web page) [Publish]
-    - Get the *Spreadsheet ID* (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
-    - Get the *Worksheet ID*: The Worksheet IDs are increasing numbers, starting at 1.
+   - [File] &rightarrow; [Publish to the web] &rightarrow; (Entire Document, Web page) [Publish]
+   - Get the _Spreadsheet ID_ (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
+   - Get the _Worksheet ID_: The Worksheet IDs are increasing numbers, starting at 1.
 3. Optional: It may be a good idea to enable [2-Step Verification](https://www.google.com/landing/2step/) for your Google account, if you have not done it yet :wink:.
 
 ### Angular
@@ -114,24 +115,24 @@ The `attributesMapping` maps the Google spreadsheet columns to to your outcome o
 
 ```typescript
 const attributesMapping = {
-  id: 'ID',
-  name: 'Name',
-  email: 'Email Address',
+  id: "ID",
+  name: "Name",
+  email: "Email Address",
   contact: {
-    _prefix: 'Contact',
-    street: 'Street',
-    streetNumber: 'Street Number',
-    zip: 'ZIP',
-    city: 'City'
+    _prefix: "Contact",
+    street: "Street",
+    streetNumber: "Street Number",
+    zip: "ZIP",
+    city: "City",
   },
   skills: {
-    _prefix: 'Skill',
-    _listField: true
-  }
+    _prefix: "Skill",
+    _listField: true,
+  },
 };
 ```
 
-For example, the Google spreadsheet column *Email Address* is mapped to the outcome object attribute `email`.
+For example, the Google spreadsheet column _Email Address_ is mapped to the outcome object attribute `email`.
 
 #### Nested objects
 
@@ -139,14 +140,19 @@ For example, the Google spreadsheet column *Email Address* is mapped to the outc
 
 #### Lists
 
-`skills` is an example of a list. You need to set `_listField` and a `_prefix` for all columns of the list. In this example, all columns starting with *Skill* and an increasing number are part of the list, i.e. *Skill 1*, *Skill 2*, etc.
+`skills` is an example of a list. You need to set `_listField` and a `_prefix` for all columns of the list. In this example, all columns starting with _Skill_ and an increasing number are part of the list, i.e. _Skill 1_, _Skill 2_, etc.
 
 ## Methods
 
 ### get<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[]): Observable<T[]>
 
 ```typescript
-const allCharacters$: Observable<Character> = googleSheetsDbService.get<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping);
+const allCharacters$: Observable<Character> =
+  googleSheetsDbService.get<Character>(
+    "1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA",
+    1,
+    attributesMapping
+  );
 ```
 
 Get all rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`.
@@ -154,10 +160,16 @@ Get all rows from the Google spreadsheet as an `Observable` of objects or a give
 ### getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[], isActiveColumnName: string = 'is_active', activeValues: string[] | string = null): Observable<T[]>
 
 ```typescript
-const activeCharacters$: Observable<Character> = googleSheetsDbService.getActive<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping, 'Active');
+const activeCharacters$: Observable<Character> =
+  googleSheetsDbService.getActive<Character>(
+    "1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA",
+    1,
+    attributesMapping,
+    "Active"
+  );
 ```
 
-Get "active" rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`. You may have an *active* column with name `isActiveColumnName`, with which you can enable or disable rows/entries.
+Get "active" rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`. You may have an _active_ column with name `isActiveColumnName`, with which you can enable or disable rows/entries.
 "Active" rows have the value `true`, `1` or `yes`. You may also define your own `activeValues`.
 
 ## Demo Application

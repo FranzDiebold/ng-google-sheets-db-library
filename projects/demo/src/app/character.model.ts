@@ -7,12 +7,12 @@ export const characterAttributesMapping = {
     street: 'Street',
     streetNumber: 'Street Number',
     zip: 'ZIP',
-    city: 'City'
+    city: 'City',
   },
   skills: {
     _prefix: 'Skill',
-    _listField: true
-  }
+    _listField: true,
+  },
 };
 
 export interface Character {

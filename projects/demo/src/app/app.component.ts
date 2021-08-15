@@ -10,15 +10,19 @@ import { Character, characterAttributesMapping } from './character.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   characters$: Observable<Character[]>;
 
-  constructor(private googleSheetsDbService: GoogleSheetsDbService) { }
+  constructor(private googleSheetsDbService: GoogleSheetsDbService) {}
 
   ngOnInit(): void {
     this.characters$ = this.googleSheetsDbService.getActive<Character>(
-      environment.characters.spreadsheetId, environment.characters.worksheetId, characterAttributesMapping, 'Active');
+      environment.characters.spreadsheetId,
+      environment.characters.worksheetId,
+      characterAttributesMapping,
+      'Active'
+    );
   }
 }
