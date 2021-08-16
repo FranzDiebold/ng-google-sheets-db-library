@@ -1,5 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { API_KEY } from 'ng-google-sheets-db';
 
 import { AppComponent } from './app.component';
 
@@ -9,6 +10,12 @@ describe('AppComponent', () => {
       TestBed.configureTestingModule({
         declarations: [AppComponent],
         imports: [HttpClientTestingModule],
+        providers: [
+          {
+            provide: API_KEY,
+            useValue: 'some-fake-test-api-key',
+          },
+        ],
       }).compileComponents();
     })
   );
