@@ -7,8 +7,8 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 
-import { GoogleSheetsDbService } from './google-sheets-db.service';
-import { googleSheetsMockResponseData } from './google-sheets-db.service.mock-data';
+import { API_KEY, GoogleSheetsDbService } from './google-sheets-db.service';
+import { googleSheetsAPIMockResponseData } from './google-sheets-db.service.mock-data';
 
 describe('GoogleSheetsDbService', () => {
   let service: GoogleSheetsDbService;
@@ -17,6 +17,12 @@ describe('GoogleSheetsDbService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: API_KEY,
+          useValue: '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
+        },
+      ],
     });
     service = TestBed.inject(GoogleSheetsDbService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -26,30 +32,32 @@ describe('GoogleSheetsDbService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should convert column names', () => {
-    expect(service.getJsonColumnName('test')).toBe('test');
-    expect(service.getJsonColumnName('  test  ')).toBe('test');
-    expect(service.getJsonColumnName('test-2')).toBe('test-2');
-    expect(service.getJsonColumnName('test_2')).toBe('test2');
-    expect(service.getJsonColumnName('test 2')).toBe('test2');
-    expect(service.getJsonColumnName('  As_dö1+l-?r#^2  t=e*s$t  ')).toBe(
-      'asdö1l-r2test'
+  it('should convert rows to entries', () => {
+    const rows = [
+      ['Test Column Name 1', ' Other colum   ', ' THIRD_column'],
+      ['One', 'TWO', '3'],
+      ['', '2'],
+    ];
+    const entries = [
+      { 'Test Column Name 1': 'One', 'Other colum': 'TWO', THIRD_column: '3' },
+      { 'Test Column Name 1': '', 'Other colum': '2', THIRD_column: '' },
+    ];
+    expect(service.rowsToEntries(rows)).toEqual(entries);
+  });
+
+  it('should cleant column names', () => {
+    expect(service.cleanColumnName('test')).toBe('test');
+    expect(service.cleanColumnName('  test  ')).toBe('test');
+    expect(service.cleanColumnName('test-2')).toBe('test-2');
+    expect(service.cleanColumnName('test_2 ')).toBe('test_2');
+    expect(service.cleanColumnName(' Test 2')).toBe('Test 2');
+    expect(service.cleanColumnName('  As_dö1+l-?r#^2  t=e*s$t  ')).toBe(
+      'As_dö1+l-?r#^2  t=e*s$t'
     );
-    expect(
-      service.getJsonColumnName(
-        ' AbCdEfghij klMNOPqrstuvWxYZ^1234567890ß´+#-.,<>;:_*`?=) (/&%$§' +
-          '"!° @end  '
-      )
-    ).toBe('abcdefghijklmnopqrstuvwxyz1234567890ß-.end');
-    expect(service.getJsonColumnName('TÍTULO')).toBe('título');
-    expect(service.getJsonColumnName('ESPECIFICAÇÃO da TECNOLOGIA')).toBe(
-      'especificaçãodatecnologia'
+    expect(service.cleanColumnName('TÍTULO')).toBe('TÍTULO');
+    expect(service.cleanColumnName('ESPECIFICAÇÃO da TECNOLOGIA')).toBe(
+      'ESPECIFICAÇÃO da TECNOLOGIA'
     );
-    expect(
-      service.getJsonColumnName(
-        ' abcxyz?!012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñç¿¡åø () =§$'
-      )
-    ).toBe('abcxyz012789-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø');
   });
 
   const attributesMapping = {
@@ -57,21 +65,25 @@ describe('GoogleSheetsDbService', () => {
     name: 'Name',
     email: 'Email Address',
     contact: {
-      _prefix: 'Contact',
+      _prefix: 'Contact ',
       street: 'Street',
       streetNumber: 'Street Number',
       zip: 'ZIP',
       city: 'City',
     },
     skills: {
-      _prefix: 'Skill',
+      _prefix: 'Skill ',
       _listField: true,
     },
   };
 
   it('should read Google sheet and return all entries', (done: DoneFn) => {
     service
-      .get('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, attributesMapping)
+      .get(
+        '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
+        'Characters',
+        attributesMapping
+      )
       .subscribe((data) => {
         expect(data.length).toBe(5);
 
@@ -93,16 +105,16 @@ describe('GoogleSheetsDbService', () => {
       });
 
     const expectedRequestUrl =
-      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/1/public/values?alt=json';
+      'https://sheets.googleapis.com/v4/spreadsheets/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/values/Characters?key=1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
-    mockRequest.flush(googleSheetsMockResponseData);
+    mockRequest.flush(googleSheetsAPIMockResponseData);
   });
 
   it('should read Google sheet and return active entries', (done: DoneFn) => {
     service
       .getActive(
         '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
-        2,
+        'Characters2',
         attributesMapping,
         'Active'
       )
@@ -128,23 +140,23 @@ describe('GoogleSheetsDbService', () => {
       });
 
     const expectedRequestUrl =
-      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/2/public/values?alt=json';
+      'https://sheets.googleapis.com/v4/spreadsheets/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/values/Characters2?key=1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
-    mockRequest.flush(googleSheetsMockResponseData);
+    mockRequest.flush(googleSheetsAPIMockResponseData);
   });
 
   it('should read Google sheet and return active entries with custom activeValues list', (done: DoneFn) => {
     service
       .getActive(
         '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
-        3,
+        'Characters Test',
         attributesMapping,
         'Active',
         ['no']
       )
       .subscribe((data) => {
         expect(data.length).toBe(2);
-
+        console.log(data[1]);
         expect(data[1]['id']).toBe('3');
         expect(data[1]['name']).toBe('Homer');
         expect(data[1]['email']).toBe('');
@@ -164,16 +176,16 @@ describe('GoogleSheetsDbService', () => {
       });
 
     const expectedRequestUrl =
-      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/3/public/values?alt=json';
+      'https://sheets.googleapis.com/v4/spreadsheets/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/values/Characters%20Test?key=1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
-    mockRequest.flush(googleSheetsMockResponseData);
+    mockRequest.flush(googleSheetsAPIMockResponseData);
   });
 
   it('should read Google sheet and return active entries with custom activeValue', (done: DoneFn) => {
     service
       .getActive(
         '1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA',
-        4,
+        'Characters äöü',
         attributesMapping,
         'Active',
         'no'
@@ -190,8 +202,8 @@ describe('GoogleSheetsDbService', () => {
       });
 
     const expectedRequestUrl =
-      'https://spreadsheets.google.com/feeds/list/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/4/public/values?alt=json';
+      'https://sheets.googleapis.com/v4/spreadsheets/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA/values/Characters%20%C3%A4%C3%B6%C3%BC?key=1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA';
     const mockRequest: TestRequest = httpMock.expectOne(expectedRequestUrl);
-    mockRequest.flush(googleSheetsMockResponseData);
+    mockRequest.flush(googleSheetsAPIMockResponseData);
   });
 });

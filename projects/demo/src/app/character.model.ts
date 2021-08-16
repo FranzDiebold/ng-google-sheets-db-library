@@ -3,14 +3,14 @@ export const characterAttributesMapping = {
   name: 'Name',
   email: 'Email Address',
   contact: {
-    _prefix: 'Contact',
+    _prefix: 'Contact ',
     street: 'Street',
     streetNumber: 'Street Number',
     zip: 'ZIP',
     city: 'City',
   },
   skills: {
-    _prefix: 'Skill',
+    _prefix: 'Skill ',
     _listField: true,
   },
 };
