@@ -16,7 +16,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "14"
           registry-url: "https://registry.npmjs.org"
       - run: make install
       - run: make test-lib-ci
@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "14"
           registry-url: "https://registry.npmjs.org"
       - run: make install
       - run: make publish-lib
@@ -49,7 +49,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "14"
           registry-url: "https://registry.npmjs.org"
       - run: make install
       - run: make build-lib
