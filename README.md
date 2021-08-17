@@ -80,7 +80,7 @@ A good overview guide is the [Get started as a Workspace developer](https://deve
 
 1. Create a new project in the [Google Cloud Console](https://console.cloud.google.com/).
 2. Enable Google Sheets API: [APIs & Services] &rightarrow; [Enable APIs and Services] &rightarrow; Search for "Google Sheets API" &rightarrow; [ENABLE].
-3. Create an _API key_: [APIs & Services] &rightarrow; [Credentials] &rightarrow; [+ CREATE CREDENTIALS] &rightarrow; [API key] &rightarrow; [RESTRICT KEY] &rightarrow; In "Application restrictions" choose "HTTP referrers (web sites)" and in "API restrictions" choose "Restrict key" and select "Google Sheets API" &rightarrow; [SAVE].
+3. Create an _API key_: [APIs & Services] &rightarrow; [Credentials] &rightarrow; [+ CREATE CREDENTIALS] &rightarrow; [API key] &rightarrow; [RESTRICT KEY] &rightarrow; In "Application restrictions" choose "HTTP referrers (web sites)" with "Website restrictions" and in "API restrictions" choose "Restrict key" and select "Google Sheets API" &rightarrow; [SAVE].
 4. Get the generated API key.
 
 ### Angular
