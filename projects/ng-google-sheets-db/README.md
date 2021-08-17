@@ -22,14 +22,14 @@ const attributesMapping = {
   name: "Name",
   email: "Email Address",
   contact: {
-    _prefix: "Contact",
+    _prefix: "Contact ",
     street: "Street",
     streetNumber: "Street Number",
     zip: "ZIP",
     city: "City",
   },
   skills: {
-    _prefix: "Skill",
+    _prefix: "Skill ",
     _listField: true,
   },
 };
@@ -37,7 +37,11 @@ const attributesMapping = {
 
 ```ts
 googleSheetsDbService
-  .get("1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA", 1, attributesMapping)
+  .get(
+    "1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA",
+    "Characters",
+    attributesMapping
+  )
   .subscribe((characters: object[]) => {
     // Use the characters here
   });
@@ -65,10 +69,19 @@ npm install ng-google-sheets-db
    - You may have an _active_ column, with which you can enable or disable rows/entries.
    - A Google Sheets demo spreadsheet is available [here](https://docs.google.com/spreadsheets/d/1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA).
 2. Share your sheet:
-   - [File] &rightarrow; [Publish to the web] &rightarrow; (Entire Document, Web page) [Publish]
+   - [File] &rightarrow; [Share] &rightarrow; On the bottom of the modal at "Get Link" click [Change to anyone with the link] to be "Viewer".
    - Get the _Spreadsheet ID_ (i.e. `1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA`): It is part of the Google spreadsheet URL.
-   - Get the _Worksheet ID_: The Worksheet IDs are increasing numbers, starting at 1.
+   - Get the _Sheet Name_: The name of the worksheet can be found at the bottom of your Google spreadsheet.
 3. Optional: It may be a good idea to enable [2-Step Verification](https://www.google.com/landing/2step/) for your Google account, if you have not done it yet :wink:.
+
+### Google Cloud Platform (GCP)
+
+A good overview guide is the [Get started as a Workspace developer](https://developers.google.com/workspace/guides/getstarted-overview).
+
+1. Create a new project in the [Google Cloud Console](https://console.cloud.google.com/).
+2. Enable Google Sheets API: [APIs & Services] &rightarrow; [Enable APIs and Services] &rightarrow; Search for "Google Sheets API" &rightarrow; [ENABLE].
+3. Create an _API key_: [APIs & Services] &rightarrow; [Credentials] &rightarrow; [+ CREATE CREDENTIALS] &rightarrow; [API key] &rightarrow; [RESTRICT KEY] &rightarrow; In "Application restrictions" choose "HTTP referrers (web sites)" with "Website restrictions" and in "API restrictions" choose "Restrict key" and select "Google Sheets API" &rightarrow; [SAVE].
+4. Get the generated API key.
 
 ### Angular
 
@@ -77,7 +90,7 @@ Add `GoogleSheetsDbService` to your app's module as a provider and Angular's `Ht
 ```typescript
 import { HttpClientModule } from '@angular/common/http';
 
-import { GoogleSheetsDbService } from 'ng-google-sheets-db';
+import { API_KEY, GoogleSheetsDbService } from 'ng-google-sheets-db';
 
 @NgModule({
   ...
@@ -85,7 +98,13 @@ import { GoogleSheetsDbService } from 'ng-google-sheets-db';
     HttpClientModule,
     ...
   ],
-  providers: [ GoogleSheetsDbService ],
+  providers: [
+    {
+      provide: API_KEY,
+      useValue: <YOUR_GOOGLE_SHEETS_API_KEY>,
+    },
+    GoogleSheetsDbService
+  ],
   ...
 })
 export class AppModule { }
@@ -105,7 +124,7 @@ export class YourComponent implements OnInit {
   constructor(private googleSheetsDbService: GoogleSheetsDbService) { }
 
   ngOnInit(): void {
-    this.characters$ = this.googleSheetsDbService.get<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', 1, characterAttributesMapping);
+    this.characters$ = this.googleSheetsDbService.get<Character>('1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA', "Characters", characterAttributesMapping);
   }
 ```
 
@@ -119,14 +138,14 @@ const attributesMapping = {
   name: "Name",
   email: "Email Address",
   contact: {
-    _prefix: "Contact",
+    _prefix: "Contact ",
     street: "Street",
     streetNumber: "Street Number",
     zip: "ZIP",
     city: "City",
   },
   skills: {
-    _prefix: "Skill",
+    _prefix: "Skill ",
     _listField: true,
   },
 };
@@ -136,34 +155,34 @@ For example, the Google spreadsheet column _Email Address_ is mapped to the outc
 
 #### Nested objects
 
-`contact` is an example of a nested object. You may define a `_prefix` as a prefix for all columns of the nested object.
+`contact` is an example of a nested object. You may define a `_prefix` as a prefix for all columns of the nested object. Please note that the `_prefix` may need a trailing whitespace.
 
 #### Lists
 
-`skills` is an example of a list. You need to set `_listField` and a `_prefix` for all columns of the list. In this example, all columns starting with _Skill_ and an increasing number are part of the list, i.e. _Skill 1_, _Skill 2_, etc.
+`skills` is an example of a list. You need to set `_listField` and a `_prefix` for all columns of the list. In this example, all columns starting with _Skill _ and an increasing number are part of the list, i.e. _Skill 1_, _Skill 2_, etc. Please note that the `_prefix` may need a trailing whitespace.
 
 ## Methods
 
-### get<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[]): Observable<T[]>
+### get<T>(spreadsheetId: string, worksheetName: string, attributesMapping: object | string[]): Observable<T[]>
 
 ```typescript
 const allCharacters$: Observable<Character> =
   googleSheetsDbService.get<Character>(
     "1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA",
-    1,
+    "Characters",
     attributesMapping
   );
 ```
 
 Get all rows from the Google spreadsheet as an `Observable` of objects or a given type as type variable `T`.
 
-### getActive<T>(spreadsheetId: string, worksheetId: string | number, attributesMapping: object | string[], isActiveColumnName: string = 'is_active', activeValues: string[] | string = null): Observable<T[]>
+### getActive<T>(spreadsheetId: string, worksheetName: string, attributesMapping: object | string[], isActiveColumnName: string = 'is_active', activeValues: string[] | string = null): Observable<T[]>
 
 ```typescript
 const activeCharacters$: Observable<Character> =
   googleSheetsDbService.getActive<Character>(
     "1gSc_7WCmt-HuSLX01-Ev58VsiFuhbpYVo8krbPCvvqA",
-    1,
+    "Characters",
     attributesMapping,
     "Active"
   );

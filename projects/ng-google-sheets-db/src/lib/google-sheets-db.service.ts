@@ -1,12 +1,14 @@
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { Injectable } from '@angular/core';
+import { InjectionToken, Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export interface GoogleSpreadsheetsResponse {
-  feed: { entry: object[] };
+  values: string[][];
 }
+
+export const API_KEY = new InjectionToken<string>('Google Sheets API key');
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +16,21 @@ export interface GoogleSpreadsheetsResponse {
 export class GoogleSheetsDbService {
   defaultActiveValues: any[] = ['true', '1', 'yes'];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(API_KEY) public apiKey: string
+  ) {}
 
   public get<T>(
     spreadsheetId: string,
-    worksheetId: string | number,
+    worksheetName: string,
     attributesMapping: object | string[]
   ): Observable<T[]> {
-    return this.getEntries(spreadsheetId, worksheetId).pipe(
-      map((entries) =>
-        entries.map(
-          (entry) => this.getObjectFromEntry(entry, attributesMapping) as T
+    return this.getRows(spreadsheetId, worksheetName).pipe(
+      map((rows: string[][]) =>
+        this.rowsToEntries(rows).map(
+          (entry: object) =>
+            this.getObjectFromEntry(entry, attributesMapping) as T
         )
       )
     );
@@ -32,7 +38,7 @@ export class GoogleSheetsDbService {
 
   public getActive<T>(
     spreadsheetId: string,
-    worksheetId: string | number,
+    worksheetName: string,
     attributesMapping: object | string[],
     isActiveColumnName: string = 'is_active',
     activeValues: string[] | string = null
@@ -42,52 +48,58 @@ export class GoogleSheetsDbService {
     } else if (!Array.isArray(activeValues)) {
       activeValues = [activeValues];
     }
-    return this.getEntries(spreadsheetId, worksheetId).pipe(
-      map((objects: object[]) =>
-        objects.filter((entry) =>
-          activeValues.includes(
-            this.getValueFromEntry(entry, isActiveColumnName).toLowerCase()
+    return this.getRows(spreadsheetId, worksheetName).pipe(
+      map((rows: string[][]) =>
+        this.rowsToEntries(rows)
+          .filter((obj: object) =>
+            activeValues.includes(obj[isActiveColumnName].toLowerCase())
           )
-        )
-      ),
-      map((entries) =>
-        entries.map(
-          (entry) => this.getObjectFromEntry(entry, attributesMapping) as T
-        )
+          .map(
+            (entry: object) =>
+              this.getObjectFromEntry(entry, attributesMapping) as T
+          )
       )
     );
   }
 
   private getSpreadsheetUrl(
     spreadsheetId: string,
-    worksheetId: string | number
+    worksheetName: string
   ): string {
     return (
-      'https://spreadsheets.google.com/feeds/list/' +
+      'https://sheets.googleapis.com/v4/spreadsheets/' +
       spreadsheetId +
-      '/' +
-      worksheetId +
-      '/public/values?alt=json'
+      '/values/' +
+      encodeURI(worksheetName) +
+      '?key=' +
+      this.apiKey
     );
   }
 
-  private getEntries(
+  private getRows(
     spreadsheetId: string,
-    worksheetId: string | number
-  ): Observable<object[]> {
-    const spreadsheetUrl = this.getSpreadsheetUrl(spreadsheetId, worksheetId);
+    worksheetName: string
+  ): Observable<string[][]> {
+    const spreadsheetUrl = this.getSpreadsheetUrl(spreadsheetId, worksheetName);
 
     return this.http.get<GoogleSpreadsheetsResponse>(spreadsheetUrl).pipe(
-      map((jsonRes) => jsonRes.feed.entry),
+      map((jsonRes) => jsonRes.values),
       catchError(this.handleError)
     );
   }
 
-  public getJsonColumnName(columnName: string): string {
-    return columnName
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9-.äëïöüÿßàèìòùâêîôûæœáéíóúãõñçåø]/g, '');
+  public rowsToEntries(rows: string[][]): object[] {
+    const columns: Array<string> = rows[0].map(this.cleanColumnName);
+    return rows.slice(1).map((row: Array<string>) =>
+      columns.reduce((entry: object, columnName: string, idx: number) => {
+        entry[columnName] = row.length > idx ? row[idx] : '';
+        return entry;
+      }, {})
+    );
+  }
+
+  public cleanColumnName(columnName: string): string {
+    return columnName.trim();
   }
 
   private arrayToObject(array: string[]): object {
@@ -152,13 +164,9 @@ export class GoogleSheetsDbService {
   }
 
   private getValueFromEntry(entry: object, attribute: string): string {
-    attribute = this.getJsonColumnName(attribute);
-
-    if (
-      entry.hasOwnProperty(`gsx$${attribute}`) &&
-      entry[`gsx$${attribute}`].hasOwnProperty('$t')
-    ) {
-      return entry[`gsx$${attribute}`].$t;
+    attribute = this.cleanColumnName(attribute);
+    if (entry.hasOwnProperty(attribute)) {
+      return entry[attribute];
     } else {
       return null;
     }

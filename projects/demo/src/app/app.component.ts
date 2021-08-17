@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.characters$ = this.googleSheetsDbService.getActive<Character>(
       environment.characters.spreadsheetId,
-      environment.characters.worksheetId,
+      environment.characters.worksheetName,
       characterAttributesMapping,
       'Active'
     );
