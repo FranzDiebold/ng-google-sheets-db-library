@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ng-google-sheets-db/tsconfig.lib.json",
             "project": "projects/ng-google-sheets-db/ng-package.json"
@@ -27,18 +27,6 @@
             "main": "projects/ng-google-sheets-db/src/test.ts",
             "tsConfig": "projects/ng-google-sheets-db/tsconfig.spec.json",
             "karmaConfig": "projects/ng-google-sheets-db/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ng-google-sheets-db/tsconfig.lib.json",
-              "projects/ng-google-sheets-db/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -83,7 +71,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -137,19 +124,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/demo/tsconfig.app.json",
-              "projects/demo/tsconfig.spec.json",
-              "projects/demo/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -167,6 +141,6 @@
           "options": {}
         }
       }
-    }},
-  "defaultProject": "ng-google-sheets-db"
+    }
+  }
 }
